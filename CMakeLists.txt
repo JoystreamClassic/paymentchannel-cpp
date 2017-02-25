@@ -23,7 +23,7 @@ set(library_sources
     src/UnspentBuyerRefundOutput.cpp)
 
 # === build library ===
-add_library(protocol_wire ${library_sources})
+add_library(paymentchannel ${library_sources})
 
 # === build tests ===
 if(build_tests)
@@ -34,7 +34,7 @@ if(build_tests)
   foreach(s ${tests})
     get_filename_component (sn ${s} NAME_WE)
     add_executable(${sn} ${s})
-    target_link_libraries(${sn} protocol_wire ${CONAN_LIBS})
+    target_link_libraries(${sn} paymentchannel ${CONAN_LIBS})
     add_test(${sn} "bin/${sn}")
   endforeach(s)
 
