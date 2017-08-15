@@ -7,7 +7,7 @@ from base import PaymentChannelBase
 # on the stable channel. Source will be copied to cache from local folder
 # do not upload the recipie if you don't want to include source files with the recipe
 
-class PaymnetChannelLocal(PaymentChannelBase):
+class PaymnetChannelRelease(PaymentChannelBase):
     exports = "base.py"
 
     exports_sources = "../sources*"
