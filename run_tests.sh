@@ -2,7 +2,7 @@
 
 mkdir -p build
 cd build
-conan install ../conan_pacakge/ --build=missing
+conan install ../conan_package/ --build=missing
 cmake ../sources -Dbuild_tests=on
 make
 ctest
