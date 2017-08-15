@@ -9,7 +9,7 @@ class PaymentChannelBase(ConanFile):
     description = "Conan recipe for paymentchannel-cpp library"
 
     version="0.1.1"
-
+    build_policy = "missing"
     settings = "os", "compiler", "build_type", "arch"
     generators = "cmake"
     requires = "Common/0.1@joystream/stable"
