@@ -1,54 +1,53 @@
 
-# paymentchannel-cpp
+# PaymentChannel-cpp
 
 A C++ payment channel library for doing off-chain micropayments. It has no refund transaction, and uses CSV instead, and also supports multiway channels in a single contract transaction.
 
-## Usage
-
-`...coming later...`
-
-## Build
+Current published release: `PaymentChannel/0.1.1@joystream/stable`
 
 ### Dependencies
 
-This library, and its test, has *immediate* dependencies
+This library, has *immediate* dependencies
 
-- [gtest](https://github.com/google/googletest/)
 - [common-cpp](https://github.com/JoyStream/common-cpp)
+- [gtest](https://github.com/google/googletest/)
 
-and they are managed using [Conan](https://conan.io), a platform and build system agnostic C++ package manager. To build all dependencies, you can do:
 
-```
-mkdir build
-cd build
-conan install .. --build missing
-```
+and they are managed using [Conan](https://conan.io), a platform and build system agnostic C++ package manager.
 
-which will produce an appropriate `conanbuildinfo.cmake` file, used in the building of the library itself.
+### Example Usage
 
-### Building
-
-In the same folder as the prior step you can do the following to build the library itself
+When working with a local copy of the sources, the simplest way is to export the package to the testing channel, `Common/0.0.0@joystream/testing`. Inside the `conan_package/` directory, run the test_package command, this will export and do a test build of the package:
 
 ```
-cmake ..
+conan test_package
+```
+
+Next we need to install the library and it's dependencies into our consuming project. Move into the `example/` directory and run:
+
+```
+conan install ./ --build=missing
+```
+
+This will produce an appropriate `conanbuildinfo.cmake` file, used in the building of the library itself, which is used in the example
+project CMakeLists.txt to find the library. Now we can build our project:
+
+```
+cmake .
 cmake --build .
 ```
 
-## Test
+And finally run the built example:
+```
+bin/example
+```
 
-Set the `build_tests` options when generating the make file, hence:
+## Running Unit Tests
 
 ```
-cmake .. -Dbuild_tests=on
-cmake --build .
+sh run_tests.sh
 ```
-_NB: Tests cannot to proper script validation, only signature validation, as the coincore (mSIGNA) has not built in script and interpeter support._
-
-## Use
-
-Easiest way is to consume conan recipe here (add later)
 
 ## License & Copyright
 
-``...add later...`
+`...add later...`
