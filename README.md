@@ -1,5 +1,5 @@
 
-# PaymentChannel-cpp
+# PaymentChannel
 
 A C++ payment channel library for doing off-chain micropayments. It has no refund transaction, and uses CSV instead, and also supports multiway channels in a single contract transaction.
 
@@ -17,7 +17,7 @@ and they are managed using [Conan](https://conan.io), a platform and build syste
 
 ### Example Usage
 
-When working with a local copy of the sources, the simplest way is to export the package to the testing channel, `Common/0.0.0@joystream/testing`. Inside the `conan_package/` directory, run the test_package command, this will export and do a test build of the package:
+When working with a local copy of the sources, the simplest way is to export the package to the testing channel, `PaymnetChannel/0.0.0@joystream/testing`. Inside the `conan_package/` directory, run the test_package command, this will export and do a test build of the package:
 
 ```
 conan test_package
