@@ -1,9 +1,0 @@
-[requires]
-Common/0.1@joystream/stable
-gtest/1.8.0@lasote/stable
-
-[options]
-gtest:shared=False
-
-[generators]
-cmake
