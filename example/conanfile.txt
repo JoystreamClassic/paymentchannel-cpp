@@ -1,0 +1,6 @@
+
+[requires]
+PaymentChannel/0.0.0@joystream/testing
+
+[generators]
+cmake
