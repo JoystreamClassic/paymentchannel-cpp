@@ -5,14 +5,15 @@ class PaymentChannelBase(ConanFile):
     name = "PaymentChannel"
     license = "(c) JoyStream Inc. 2016-2017"
     url = "https://github.com/JoyStream/paymentchannel-cpp.git"
-    git_repo = "git@github.com:JoyStream/paymentchannel-cpp.git"
+    repo_ssh_url = "git@github.com:JoyStream/paymentchannel-cpp.git"
+    repo_https_url = "https://github.com/JoyStream/paymentchannel-cpp.git"
     description = "Conan recipe for paymentchannel-cpp library"
 
-    version="0.1.1"
+    version="0.1.2"
     build_policy = "missing"
     settings = "os", "compiler", "build_type", "arch"
     generators = "cmake"
-    requires = "Common/0.1.1@joystream/stable"
+    requires = "Common/0.1.2@joystream/stable", "CoinCore/0.1.2@joystream/stable"
 
     def source(self):
         raise Exception("abstract base package was exported")
