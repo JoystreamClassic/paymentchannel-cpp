@@ -3,7 +3,12 @@
 
 A C++ payment channel library for doing off-chain micropayments. It has no refund transaction, and uses CSV instead, and also supports multiway channels in a single contract transaction.
 
-Current published release: `PaymentChannel/0.1.1@joystream/stable`
+conan package name: `PaymentChannel/0.1.2@joystream/stable`
+
+To access the package you need to use the joystream bintray repository:
+
+`conan remote add joystream-bintray https://api.bintray.com/conan/joystream/joystream True`
+
 
 ### Dependencies
 
@@ -50,4 +55,5 @@ sh run_tests.sh
 
 ## License & Copyright
 
-`...add later...`
+JoyStream paymentchannel library is released under the terms of the MIT license.
+See [LICENSE](LICENCE) for more information.
