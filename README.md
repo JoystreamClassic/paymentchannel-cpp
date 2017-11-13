@@ -5,10 +5,11 @@ A C++ payment channel library for doing off-chain micropayments. It has no refun
 
 conan package name: `PaymentChannel/0.1.2@joystream/stable`
 
-To access the package you need to use the joystream bintray repository:
+The package is published to joystream bintray repository, which can be accessed by adding a conan remote.
 
 `conan remote add joystream-bintray https://api.bintray.com/conan/joystream/joystream True`
 
+You can also use the package by cloning the git repo.
 
 ### Dependencies
 
@@ -20,17 +21,25 @@ This library, has *immediate* dependencies
 
 and they are managed using [Conan](https://conan.io), a platform and build system agnostic C++ package manager.
 
+## Running Unit Tests
+
+```
+sh run_tests.sh
+```
+
 ### Example Usage
 
 When working with a local copy of the sources, the simplest way is to export the package to the testing channel, `PaymnetChannel/0.0.0@joystream/testing`. Inside the `conan_package/` directory, run the test_package command, this will export and do a test build of the package:
 
 ```
+cd conan_package/
 conan test_package
 ```
 
 Next we need to install the library and it's dependencies into our consuming project. Move into the `example/` directory and run:
 
 ```
+cd example/
 conan install ./ --build=missing
 ```
 
@@ -47,10 +56,13 @@ And finally run the built example:
 bin/example
 ```
 
-## Running Unit Tests
+## Exporting specific version locally
+By cloning the repo there is no need to rely on a remote conan repo. This is done by exporting a specific tag
 
 ```
-sh run_tests.sh
+git checkout v0.1.2
+cd conan_package/
+conan export joystream/stable --file release_include_source.py
 ```
 
 ## License & Copyright
