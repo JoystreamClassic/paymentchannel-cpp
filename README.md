@@ -5,6 +5,11 @@ A C++ payment channel library for doing off-chain micropayments. It has no refun
 
 conan package name: `PaymentChannel/0.1.2@joystream/stable`
 
+To access the package you need to use the joystream bintray repository:
+
+`conan remote add joystream-bintray https://api.bintray.com/conan/joystream/joystream True`
+
+
 ### Dependencies
 
 This library, has *immediate* dependencies
