@@ -11,13 +11,13 @@
 #include <paymentchannel/Commitment.hpp>
 #include <common/Payment.hpp>
 #include <common/typesafeOutPoint.hpp>
-#include <common/Utilities.hpp>
 
 namespace Coin {
     class Transaction;
     class typesafeOutPoint;
     class TransactionSignature;
     class PrivateKey;
+    class SigHashType;
 }
 
 namespace joystream {
@@ -96,4 +96,3 @@ namespace paymentchannel {
 }
 
 #endif // PAYMENT_CHANNEL_SETTLEMENT_HPP
-

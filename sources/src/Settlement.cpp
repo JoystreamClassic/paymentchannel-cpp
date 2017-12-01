@@ -11,6 +11,7 @@
 #include <common/TransactionSignature.hpp>
 #include <common/PrivateKey.hpp>
 #include <common/Utilities.hpp>
+#include <common/SigHashType.hpp>
 
 #include <CoinCore/CoinNodeData.h> // TxOut
 
@@ -86,10 +87,11 @@ namespace paymentchannel {
 
     uchar_vector Settlement::sighash(Coin::SigHashType type) const {
 
-        return Coin::sighash(unSignedTransaction(),
+        return type.getSigHash(unSignedTransaction(),
                        _contractOutPoint,
                        _commitment.redeemScript().serialized(),
-                       type);
+                       _commitment.value()
+                     );
     }
 
     Coin::TransactionSignature Settlement::transactionSignature(const Coin::PrivateKey & sk) const {
