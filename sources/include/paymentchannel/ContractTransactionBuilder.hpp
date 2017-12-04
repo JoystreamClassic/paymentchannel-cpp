@@ -17,6 +17,7 @@
 
 namespace Coin {
     class Transaction;
+    enum class Network;
 }
 
 namespace joystream {
@@ -28,7 +29,7 @@ public:
 
     typedef std::vector<Commitment> Commitments;
 
-    ContractTransactionBuilder();
+    ContractTransactionBuilder(Coin::Network);
 
     boost::optional<Coin::UnspentOutputSet> funding() const;
     void setFunding(const boost::optional<Coin::UnspentOutputSet> &funding);
@@ -44,15 +45,16 @@ public:
      * is also signed if funding was provided.
      * @return contract transaction
      */
-    Coin::Transaction transaction() const;
+    Coin::Transaction transaction(Coin::Network) const;
 
     // Transaction fee for contract with given terms
-    static uint64_t totalFee(uint32_t numberOfCommitments, bool hasChange, uint64_t feePerKb, uint64_t sizeOfAllInputs);
+    static uint64_t totalFee(uint32_t numberOfCommitments, bool hasChange, uint64_t feePerKb, uint64_t sizeOfAllInputs,
+                                Coin::Network);
 
 private:
 
     // The size of a contract transaction with given terms
-    static uint64_t transactionSize(uint32_t, bool);
+    static uint64_t transactionSize(uint32_t, bool, Coin::Network);
 
     // Funding contract
     boost::optional<Coin::UnspentOutputSet> _funding;

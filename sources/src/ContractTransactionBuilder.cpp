@@ -49,7 +49,7 @@ void ContractTransactionBuilder::setChange(const boost::optional<Coin::Payment> 
     _change = change;
 }
 
-Coin::Transaction ContractTransactionBuilder::transaction() const {
+Coin::Transaction ContractTransactionBuilder::transaction(Coin::Network network) const {
 
     // Create transaction
     Coin::Transaction transaction;
@@ -64,23 +64,23 @@ Coin::Transaction ContractTransactionBuilder::transaction() const {
 
     // Add funding if set
     if(_funding.is_initialized())
-        _funding.get().finance(transaction, Coin::SigHashType::standard());
+        _funding.get().finance(transaction, Coin::SigHashType::standard(network));
 
     return transaction;
 }
 
-uint64_t ContractTransactionBuilder::totalFee(uint32_t numberOfCommitments, bool hasChange, uint64_t feePerKb, uint64_t sizeOfAllInputs) {
+uint64_t ContractTransactionBuilder::totalFee(uint32_t numberOfCommitments, bool hasChange, uint64_t feePerKb, uint64_t sizeOfAllInputs, Coin::Network network) {
 
     // Sizeof transaction
-    uint64_t txByteSize = transactionSize(numberOfCommitments, hasChange) + sizeOfAllInputs;
+    uint64_t txByteSize = transactionSize(numberOfCommitments, hasChange, network) + sizeOfAllInputs;
 
     // Seed on fee estimate at http://bitcoinfees.com/
     return ceil(feePerKb*((float)txByteSize/1024));
 }
 
-uint64_t ContractTransactionBuilder::transactionSize(uint32_t numberOfCommitments, bool hasChange) {
+uint64_t ContractTransactionBuilder::transactionSize(uint32_t numberOfCommitments, bool hasChange, Coin::Network network) {
 
-    ContractTransactionBuilder c;
+    ContractTransactionBuilder c(network);
 
     // set commitments
     c.setCommitments(Commitments(numberOfCommitments));
