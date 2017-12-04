@@ -29,7 +29,7 @@ public:
 
     typedef std::vector<Commitment> Commitments;
 
-    ContractTransactionBuilder(Coin::Network);
+    ContractTransactionBuilder();
 
     boost::optional<Coin::UnspentOutputSet> funding() const;
     void setFunding(const boost::optional<Coin::UnspentOutputSet> &funding);

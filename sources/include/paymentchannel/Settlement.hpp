@@ -30,11 +30,13 @@ namespace paymentchannel {
         Settlement(const Coin::typesafeOutPoint & contractOutPoint,
                    const Commitment & commitment,
                    const Coin::Payment & toPayor,
-                   const Coin::Payment & toPayee);
+                   const Coin::Payment & toPayee,
+                   Coin::Network network);
 
         Settlement(const Coin::typesafeOutPoint & contractOutPoint,
                    const Commitment & commitment,
-                   const Coin::Payment & toPayor);
+                   const Coin::Payment & toPayor,
+                   Coin::Network network);
 
         // Creates to appropriate settlement given the dust
         // limit and transaction fee
@@ -43,7 +45,8 @@ namespace paymentchannel {
                                                          const Coin::PubKeyHash & payorPkHash,
                                                          const Coin::PubKeyHash & payeePkHash,
                                                          uint64_t paid,
-                                                         uint64_t fee);
+                                                         uint64_t fee,
+                                                         Coin::Network network);
 
         // Implicit fee by comparing commitment and (payor + payee) payment
         int64_t fee() const;
@@ -90,6 +93,8 @@ namespace paymentchannel {
 
         // Payment back to payor
         Coin::Payment _toPayor;
+
+        Coin::Network _network;
     };
 
 }

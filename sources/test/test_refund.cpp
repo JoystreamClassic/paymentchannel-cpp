@@ -36,7 +36,9 @@ TEST(paymentchannelTest, refund)
     Coin::RelativeLockTime lockTime = Coin::RelativeLockTime::fromTimeUnits(3);
     uint64_t channelValue = 180;
 
-    joystream::paymentchannel::Payor p(1, 0, channelValue, 1000, lockTime,contractOutPoint, payorContractPair, payorScriptHash, payeeContractPair.pk(), payeeScriptHash);
+    const Coin::Network network = Coin::Network::mainnet;
+
+    joystream::paymentchannel::Payor p(1, 0, channelValue, 1000, lockTime,contractOutPoint, payorContractPair, payorScriptHash, payeeContractPair.pk(), payeeScriptHash, network);
     joystream::paymentchannel::Refund R(p.refund());
 
     EXPECT_EQ(R.getUnspentOutput()->value(), channelValue);

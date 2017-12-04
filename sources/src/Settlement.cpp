@@ -21,21 +21,25 @@ namespace paymentchannel {
     Settlement::Settlement(const Coin::typesafeOutPoint & contractOutPoint,
                            const Commitment & commitment,
                            const Coin::Payment & toPayor,
-                           const Coin::Payment & toPayee)
+                           const Coin::Payment & toPayee,
+                           Coin::Network network)
         : _includePayee(true)
         , _toPayee(toPayee)
         , _contractOutPoint(contractOutPoint)
         , _commitment(commitment)
-        , _toPayor(toPayor) {
+        , _toPayor(toPayor)
+        , _network(network) {
     }
 
     Settlement::Settlement(const Coin::typesafeOutPoint & contractOutPoint,
                            const Commitment & commitment,
-                           const Coin::Payment & toPayor)
+                           const Coin::Payment & toPayor,
+                           Coin::Network network)
         : _includePayee(false)
         , _contractOutPoint(contractOutPoint)
         , _commitment(commitment)
-        , _toPayor(toPayor) {
+        , _toPayor(toPayor)
+        , _network(network) {
     }
 
     Settlement Settlement::dustLimitAndFeeAwareSettlement(const Coin::typesafeOutPoint & contractOutPoint,
@@ -43,7 +47,8 @@ namespace paymentchannel {
                                                           const Coin::PubKeyHash &payorPkHash,
                                                           const Coin::PubKeyHash &payeePkHash,
                                                           uint64_t paid,
-                                                          uint64_t fee) {
+                                                          uint64_t fee,
+                                                          Coin::Network network) {
 
         if(paid > (uint64_t)commitment.value())
             throw std::runtime_error("Funds do not cover payment.");
@@ -55,11 +60,13 @@ namespace paymentchannel {
             return Settlement(contractOutPoint,
                               commitment,
                               Coin::Payment(commitment.value() - paid, payorPkHash),
-                              Coin::Payment(paid - fee, payeePkHash));
+                              Coin::Payment(paid - fee, payeePkHash),
+                              network);
         else
             return Settlement(contractOutPoint,
                               commitment,
-                              Coin::Payment(commitment.value() - paid, payorPkHash));
+                              Coin::Payment(commitment.value() - paid, payorPkHash),
+                              network);
 
     }
 
@@ -96,7 +103,7 @@ namespace paymentchannel {
 
     Coin::TransactionSignature Settlement::transactionSignature(const Coin::PrivateKey & sk) const {
 
-        Coin::SigHashType type = Coin::SigHashType::standard();
+        Coin::SigHashType type = Coin::SigHashType::standard(_network);
 
         uchar_vector hash = sighash(type);
 
@@ -111,6 +118,11 @@ namespace paymentchannel {
             throw std::runtime_error("First signature was not of type SIGHASH_ALL type");
         else if(!payeeTransactionSignature.type().isStandard())
             throw std::runtime_error("Second signature was not of type SIGHASH_ALL type");
+
+        // Verify that both are using the same SigHashType (same network)
+        if (!(payorTransactionSignature.type() == payeeTransactionSignature.type())) {
+          throw std::runtime_error("Signatures sighash types do not match");
+        }
 
         // Create (unsigned) transaction
         Coin::Transaction tx = unSignedTransaction();
@@ -133,7 +145,7 @@ namespace paymentchannel {
     bool Settlement::validate(const Coin::PublicKey & pk, const Coin::Signature & sig) const {
 
         // Compute sighash for unsigned refund
-        uchar_vector h = sighash(Coin::SigHashType::standard());
+        uchar_vector h = sighash(Coin::SigHashType::standard(_network));
 
         // Check if signature is valid
         return pk.verify(h, sig);

@@ -80,7 +80,7 @@ uint64_t ContractTransactionBuilder::totalFee(uint32_t numberOfCommitments, bool
 
 uint64_t ContractTransactionBuilder::transactionSize(uint32_t numberOfCommitments, bool hasChange, Coin::Network network) {
 
-    ContractTransactionBuilder c(network);
+    ContractTransactionBuilder c;
 
     // set commitments
     c.setCommitments(Commitments(numberOfCommitments));
@@ -90,7 +90,7 @@ uint64_t ContractTransactionBuilder::transactionSize(uint32_t numberOfCommitment
         c.setChange(Coin::Payment(0, Coin::PubKeyHash(uchar_vector(PUBKEY_HASH_BYTE_LENGTH,0xff))));
 
     // Generate transaction
-    Coin::Transaction tx = c.transaction();
+    Coin::Transaction tx = c.transaction(network);
 
     // return total size
     return tx.getSize();

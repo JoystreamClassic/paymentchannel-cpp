@@ -41,7 +41,8 @@ TEST(paymentchannelTest, settlement)
     joystream::paymentchannel::Settlement s(contractOutPoint,
                                             commitment,
                                             toPayor,
-                                            toPayee);
+                                            toPayee,
+                                            Coin::Network::mainnet);
 
     // Generate payee refund signature, hence using payee private key
     Coin::TransactionSignature payeePaySig = s.transactionSignature(payeeContractPair.sk());
