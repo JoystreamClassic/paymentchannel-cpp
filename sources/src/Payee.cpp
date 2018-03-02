@@ -18,12 +18,13 @@
 namespace joystream {
 namespace paymentchannel {
 
-    Payee::Payee()
+    Payee::Payee(Coin::Network network)
         : _numberOfPaymentsMade(0)
         , _lockTime()
         , _price(0)
         , _funds(0)
-        , _settlementFee(0){
+        , _settlementFee(0)
+        , _network(network){
     }
 
     Payee::Payee(uint64_t numberOfPaymentsMade,
@@ -36,7 +37,8 @@ namespace paymentchannel {
                  const Coin::PubKeyHash &payeeFinalPkHash,
                  const Coin::PublicKey & payorContractPk,
                  const Coin::PubKeyHash &payorFinalPkHash,
-                 const Coin::Signature & lastValidPayorPaymentSignature)
+                 const Coin::Signature & lastValidPayorPaymentSignature,
+                 Coin::Network network)
         : _numberOfPaymentsMade(numberOfPaymentsMade)
         , _lockTime(lockTime)
         , _price(price)
@@ -47,7 +49,8 @@ namespace paymentchannel {
         , _payeeFinalPkHash(payeeFinalPkHash)
         , _payorContractPk(payorContractPk)
         , _payorFinalPkHash(payorFinalPkHash)
-        , _lastValidPayorPaymentSignature(lastValidPayorPaymentSignature) {
+        , _lastValidPayorPaymentSignature(lastValidPayorPaymentSignature)
+        , _network(network) {
     }
 
     bool Payee::registerPayment(const Coin::Signature & paymentSignature) {
@@ -75,7 +78,7 @@ namespace paymentchannel {
         Coin::TransactionSignature payeeTransactionSignature = s.transactionSignature(_payeeContractKeys.sk());
 
         // Create payor signature
-        Coin::TransactionSignature payorTransactionSignature = Coin::TransactionSignature(_lastValidPayorPaymentSignature, Coin::SigHashType::standard());
+        Coin::TransactionSignature payorTransactionSignature = Coin::TransactionSignature(_lastValidPayorPaymentSignature, Coin::SigHashType::standard(_network));
 
         // Return signed transaction
         return s.signedTransaction(payorTransactionSignature, payeeTransactionSignature);
@@ -98,7 +101,8 @@ namespace paymentchannel {
                                                           _payorFinalPkHash,
                                                           _payeeFinalPkHash,
                                                           amountPaid,
-                                                          _settlementFee);
+                                                          _settlementFee,
+                                                          _network);
     }
 
     bool Payee::isContractValid(const Coin::Transaction &) const {

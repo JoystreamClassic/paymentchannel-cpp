@@ -38,7 +38,7 @@ namespace paymentchannel {
 
     public:
 
-        Payor();
+        Payor(Coin::Network network);
 
         Payor(uint64_t price,
                 uint64_t numberOfPaymentsMade,
@@ -49,7 +49,8 @@ namespace paymentchannel {
                 const Coin::KeyPair & payorContractKeyPair,
                 const Coin::PubKeyHash & payorFinalPkHash,
                 const Coin::PublicKey & payeeContractPk,
-                const Coin::PubKeyHash & payeeFinalPkHash);
+                const Coin::PubKeyHash & payeeFinalPkHash,
+                Coin::Network network);
 
         // Commitment for channel
         Commitment commitment() const;
@@ -132,6 +133,8 @@ namespace paymentchannel {
 
         // Controls payee payments, received in sign_refund.pk
         Coin::PubKeyHash _payeeFinalPkHash;
+
+        Coin::Network _network;
     };
 
 }

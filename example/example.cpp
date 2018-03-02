@@ -11,6 +11,7 @@ int main(int argc, char* argv[]) {
   const uint64_t settlementFee = 2500;
   const uint64_t refundFee = 2500;
   const uint64_t refundAmount = funds - refundFee;
+  const Coin::Network network = Coin::Network::mainnet;
 
   Coin::RelativeLockTime refundLockTime = Coin::RelativeLockTime::fromBlockUnits(5);
   const Coin::typesafeOutPoint anchor;
@@ -19,7 +20,7 @@ int main(int argc, char* argv[]) {
   const Coin::PublicKey payeeContractPk = Coin::PrivateKey::generate().toPublicKey();
   const Coin::PubKeyHash payeeFinalPkHash;
 
-  joystream::paymentchannel::Payor payor(price, numberOfPaymentsMade, funds, settlementFee, refundLockTime, anchor, payorContractKeyPair, payorFinalPkHash, payeeContractPk, payeeFinalPkHash);
+  joystream::paymentchannel::Payor payor(price, numberOfPaymentsMade, funds, settlementFee, refundLockTime, anchor, payorContractKeyPair, payorFinalPkHash, payeeContractPk, payeeFinalPkHash, network);
 
   auto refund = payor.refund();
 
