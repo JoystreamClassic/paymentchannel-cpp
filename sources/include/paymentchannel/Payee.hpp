@@ -36,7 +36,7 @@ namespace paymentchannel {
 
     public:
 
-        Payee();
+        Payee(Coin::Network network);
 
         Payee(uint64_t numberOfPaymentsMade,
               Coin::RelativeLockTime lockTime,
@@ -48,7 +48,8 @@ namespace paymentchannel {
               const Coin::PubKeyHash & payeeFinalPkHash,
               const Coin::PublicKey & payorContractPk,
               const Coin::PubKeyHash & payorFinalPkHash,
-              const Coin::Signature & lastValidPayorPaymentSignature);
+              const Coin::Signature & lastValidPayorPaymentSignature,
+              Coin::Network network);
 
         // Attempts to register payment if signature is valid
         // ==================================================
@@ -145,6 +146,7 @@ namespace paymentchannel {
         // The last valid payment signature received, corresponds to _numberOfPaymentsMade
         Coin::Signature _lastValidPayorPaymentSignature;
 
+        Coin::Network _network;
     };
 
 }

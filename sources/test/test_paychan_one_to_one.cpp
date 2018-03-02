@@ -50,8 +50,10 @@ TEST(paymentchannelTest, paychan_one_to_one)
     Coin::Payment change(change_amount, Coin::RedeemScriptHash());
     c.setChange(change);
 
+    const Coin::Network network = Coin::Network::mainnet;
+
     // Derive anchor
-    Coin::Transaction contractTx = c.transaction();
+    Coin::Transaction contractTx = c.transaction(network);
     Coin::typesafeOutPoint anchor(Coin::TransactionId::fromTx(contractTx), 0);
 
     // Setup payor
@@ -64,7 +66,8 @@ TEST(paymentchannelTest, paychan_one_to_one)
                                           payorContractKeyPair,
                                           payorFinalKeyHash,
                                           payeeContractKeyPair.pk(),
-                                          payeeFinalKeyHash);
+                                          payeeFinalKeyHash,
+                                          network);
 
     // Setup payee
     joystream::paymentchannel::Payee payee(0,
@@ -77,7 +80,8 @@ TEST(paymentchannelTest, paychan_one_to_one)
                                            payeeFinalKeyHash,
                                            payorContractKeyPair.pk(),
                                            payorFinalKeyHash,
-                                           Coin::Signature());
+                                           Coin::Signature(),
+                                           network);
 
     // Make series of payments
     int number_of_payments = 10;

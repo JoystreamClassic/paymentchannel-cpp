@@ -20,12 +20,13 @@
 namespace joystream {
 namespace paymentchannel {
 
-    Payor::Payor()
+    Payor::Payor(Coin::Network network)
         : _price(0)
         , _numberOfPaymentsMade(0)
         , _funds(0)
         , _settlementFee(0)
-        , _refundLockTime() {
+        , _refundLockTime()
+        , _network(network) {
     }
 
     Payor::Payor(uint64_t price,
@@ -37,7 +38,8 @@ namespace paymentchannel {
                      const Coin::KeyPair & payorContractKeyPair,
                      const Coin::PubKeyHash &payorFinalPkHash,
                      const Coin::PublicKey & payeeContractPk,
-                     const Coin::PubKeyHash &payeeFinalPkHash)
+                     const Coin::PubKeyHash &payeeFinalPkHash,
+                     Coin::Network network)
         : _price(price)
         , _numberOfPaymentsMade(numberOfPaymentsMade)
         , _funds(funds)
@@ -47,7 +49,8 @@ namespace paymentchannel {
         , _payorContractKeyPair(payorContractKeyPair)
         , _payorFinalPkHash(payorFinalPkHash)
         , _payeeContractPk(payeeContractPk)
-        , _payeeFinalPkHash(payeeFinalPkHash){
+        , _payeeFinalPkHash(payeeFinalPkHash)
+        , _network(network) {
     }
 
     Commitment Payor::commitment() const {
@@ -67,7 +70,8 @@ namespace paymentchannel {
                                                           _payorFinalPkHash,
                                                           _payeeFinalPkHash,
                                                           amountPaid(),
-                                                          _settlementFee);
+                                                          _settlementFee,
+                                                          _network);
     }
 
     Coin::Signature Payor::generatePayorSettlementSignature() const {

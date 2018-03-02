@@ -1,7 +1,8 @@
 #include <paymentchannel/paymentchannel.hpp>
 
 int main() {
-  joystream::paymentchannel::Payor payor;
-  joystream::paymentchannel::Payee payee;
+  const Coin::Network network = Coin::Network::mainnet;
+  joystream::paymentchannel::Payor payor(network);
+  joystream::paymentchannel::Payee payee(network);
   return 0;
 }
